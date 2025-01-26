@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package category;
+
+message Category {
+    int32 id = 1;
+    string description = 2;
+}
+
+service CategoryProtoService {
+    rpc GetOneCategory(GetOneCategoriesRequest) returns (GetOneCategoryResponse) {}
+    rpc CreateCategory(CreateCategoryRequest) returns (CreateCategoryResponse) {}
+}
+
+message GetOneCategoriesRequest {
+    int32 id = 1;
+}
+
+message GetOneCategoryResponse {
+    Category category = 1;
+}
+
+message CreateCategoryRequest {
+    string description = 1;
+}
+
+message CreateCategoryResponse {
+    int32 id = 1;
+    string description = 2;
+}
