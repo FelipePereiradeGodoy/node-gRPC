@@ -11,11 +11,11 @@ async function bootstrap() {
     options: {
       package: 'category',
       protoPath: join(__dirname, 'protos/category.proto'),
-      url: 'localhost:50051'
+      url: 'localhost:50001'
     }
   });
 
   await app.startAllMicroservices();
-  await app.listen(process.env.PORT ?? 3004);
+  //await app.listen();
 }
 bootstrap();
