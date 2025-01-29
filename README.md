@@ -1,5 +1,23 @@
-## A ser feito
+## gRPC + NestJS
+Projeto com foco em implementar os conceitos de gRPC, tanto a parte do cliente como a servidor.
 
-1 - Criar mais metodos trabalhando com stream:
-1.1 - stream unilateral client e server.
-1.2 - stream bilateral client.
+## Instalação
+```bash
+$ npm install
+```
+
+## Para rodar o App
+
+Iniciar o cliente
+```bash
+$ npm run start:dev client-side
+```
+
+Iniciar o servidor
+```bash
+$ npm run start:dev server-side
+```
+
+## A ser feito
+1 - stream unilateral client e server.
+2 - stream bilateral client.
