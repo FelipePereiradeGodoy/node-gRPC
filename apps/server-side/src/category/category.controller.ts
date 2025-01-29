@@ -6,13 +6,8 @@ import { GrpcMethod } from "@nestjs/microservices";
 export class CategoryController {
     constructor(@Inject() private readonly cartegoryService: CategoryService) {}
 
-    @Get('teste')
-    teste() {
-        return 'teste';
-    }
-
     @GrpcMethod('CategoryProtoService', 'GetOneCategory')
-    getAllCategories(data) {
+    getOneCategory(data) {
         const category = this.cartegoryService.getOneCategory(data);
 
         return {

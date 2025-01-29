@@ -10,7 +10,11 @@
       "entryFile": "main",
       "sourceRoot": "apps/client-side/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/client-side/tsconfig.app.json"
+        "tsConfigPath": "apps/client-side/tsconfig.app.json",
+        "assets": [
+          "**/*.proto"
+        ],
+        "watchAssets": true
       }
     },
     "server-side": {
