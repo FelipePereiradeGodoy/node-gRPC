@@ -10,6 +10,7 @@ message Category {
 service CategoryProtoService {
     rpc GetOneCategory(GetOneCategoriesRequest) returns (GetOneCategoryResponse) {}
     rpc CreateCategory(CreateCategoryRequest) returns (CreateCategoryResponse) {}
+    rpc GetOneCategoryStream(stream GetOneCategoryStreamRequest) returns (stream GetOneCategoryStreamResponse) {}
 }
 
 message GetOneCategoriesRequest {
@@ -27,4 +28,12 @@ message CreateCategoryRequest {
 message CreateCategoryResponse {
     int32 id = 1;
     string description = 2;
+}
+
+message GetOneCategoryStreamRequest {
+    int32 id = 1;
+}
+
+message GetOneCategoryStreamResponse {
+    Category category = 1;
 }
