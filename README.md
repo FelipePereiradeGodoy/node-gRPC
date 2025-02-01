@@ -20,4 +20,3 @@ $ npm run start:dev server-side
 
 ## A ser feito
 1 - stream unilateral client e server.
-2 - stream bilateral client.
