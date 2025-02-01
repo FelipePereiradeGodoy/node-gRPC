@@ -1,11 +1,7 @@
 import { Body, Controller, Get, Inject, OnModuleInit, Param, Post } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
-import { Observable, ReplaySubject, filter, lastValueFrom, map, toArray } from 'rxjs';
-import { ICategoryGRPCService, IGetOneCategoryStreamRequest, IGetOneCategoryStreamResponse } from '../protos/category-proto.interface';
-import { IGetCategoriesStreamResponse } from './response/get-categories-stream.response';
-import { GetOneCategoryResponse } from './response/get-one-category.response';
-import { CreateCategoryRequest } from './request/create-category.request';
-import { CreateCategoryResponse } from './response/create-category.response';
+import { Observable, ReplaySubject, filter, firstValueFrom, lastValueFrom, map, toArray } from 'rxjs';
+import { ICategoryGRPCService, ICreateCategoryRequest, ICreateCategoryResponse, IGetOneCategoryResponse, IGetOneCategoryStreamRequest, IGetOneCategoryStreamResponse } from '../protos/category-proto.interface';
 
 @Controller()
 export class CategoryController implements OnModuleInit {
@@ -18,27 +14,29 @@ export class CategoryController implements OnModuleInit {
   }
 
   @Get(':id')
-  getOneCategory(@Param('id') id: number): GetOneCategoryResponse {
-    console.log(id);
-    const { category } = this.categoryGRPCService.getOneCategory({ id: id });
+  async getOneCategory(@Param('id') id: number): Promise<IGetOneCategoryResponse> {
+    console.log('Id Recebido: ' + id);
 
-    console.log(category);
-
-    const response: GetOneCategoryResponse = {
-      ...category
-    };
+    const response = await firstValueFrom(this.categoryGRPCService.getOneCategory({ id: id }));
     
+    console.log('Categoria encontrada: '+ response.category.description);
+
     return response;
   }
 
   @Post()
-  createCategory(@Body() payload: CreateCategoryRequest): CreateCategoryResponse {
-    const response = this.categoryGRPCService.createCategory(payload);
+  async createCategory(@Body() payload: ICreateCategoryRequest): Promise<ICreateCategoryResponse> {
+    console.log('Criando categoria: '+ payload.description);
+
+    const response = await firstValueFrom(this.categoryGRPCService.createCategory(payload));
+
+    console.log('Id criado: ' + response.id);
+
     return response;
   }
 
   @Get('list/:ids')
-  async getCategoriesStream(@Param('ids') ids: string): Promise<IGetCategoriesStreamResponse[]> {
+  async getCategoriesStream(@Param('ids') ids: string): Promise<IGetOneCategoryStreamResponse[]> {
     const listId = ids.split(',').map(Number);
     
     const subject = new ReplaySubject<IGetOneCategoryStreamRequest>();
@@ -67,11 +65,6 @@ export class CategoryController implements OnModuleInit {
 
     const filterdStreamResponse = stream.pipe(
       filter((response) => response.category !== undefined),
-      map((response) => {
-        return {
-          ...response.category
-        }
-      }),
       toArray(),
     )
 

@@ -1,7 +1,7 @@
-import { Controller, Get, Inject } from "@nestjs/common";
+import { Controller, Inject } from "@nestjs/common";
 import CategoryService from "./category.service";
 import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
-import { Observable, Subject } from "rxjs";
+import { Observable, of, Subject } from "rxjs";
 import { ICategory, ICreateCategoryRequest, ICreateCategoryResponse, IGetOneCategoriesRequest, IGetOneCategoryResponse, IGetOneCategoryStreamRequest, IGetOneCategoryStreamResponse } from "../protos/category-proto.interface";
 
 @Controller()
@@ -9,17 +9,21 @@ export class CategoryController {
     constructor(@Inject() private readonly cartegoryService: CategoryService) {}
 
     @GrpcMethod('CategoryProtoService', 'GetOneCategory')
-    getOneCategory(payload: IGetOneCategoriesRequest): IGetOneCategoryResponse {
+    getOneCategory(payload: IGetOneCategoriesRequest): Observable<IGetOneCategoryResponse> {
+        console.log('Recebendo id: '+ payload.id);
+
         const category = this.cartegoryService.getOneCategory(payload);
 
-        return {
+        console.log('Encontrou a categoria: ' + category?.description);
+
+        return of({
             category: category as ICategory,
-        };
+        });
     }
 
     @GrpcMethod('CategoryProtoService', 'CreateCategory')
-    createCategory(payload: ICreateCategoryRequest): ICreateCategoryResponse {
-        return this.cartegoryService.createCategory(payload);
+    createCategory(payload: ICreateCategoryRequest): Observable<ICreateCategoryResponse> {
+        return of(this.cartegoryService.createCategory(payload));
     }
 
     @GrpcStreamMethod('CategoryProtoService', 'GetOneCategoryStream')
@@ -30,8 +34,6 @@ export class CategoryController {
             console.log('Processando request: '+ requestDTO.id);
 
             const category = this.cartegoryService.getOneCategory(requestDTO) as ICategory;
-
-            console.log('Category: ' + category.description);
 
             subject.next({ category });
         };

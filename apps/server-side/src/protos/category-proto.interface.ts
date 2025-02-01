@@ -6,8 +6,8 @@ export interface ICategory {
 }
 
 export interface ICategoryGRPCService {
-  getOneCategory(requestDTO: IGetOneCategoriesRequest): IGetOneCategoryResponse;
-  createCategory(requestDTO: ICreateCategoryRequest): ICreateCategoryResponse;
+  getOneCategory(requestDTO: IGetOneCategoriesRequest): Observable<IGetOneCategoryResponse>;
+  createCategory(requestDTO: ICreateCategoryRequest): Observable<ICreateCategoryResponse>;
   getOneCategoryStream(requestDTO: Observable<IGetOneCategoryStreamRequest>): Observable<IGetOneCategoryStreamResponse>;
 }
 
