@@ -1,6 +1,6 @@
 ## gRPC + NestJS
 Este projeto demonstra a implementação de gRPC no NestJS, cobrindo tanto o cliente quanto o servidor.
-Foram implementadas duas funções Unary e uma stream bidirecional, mas o gRPC também permite streams unilaterais, tanto do lado do cliente quanto do servidor.
+Foram implementadas duas funções Unary e uma stream bidirecional, mas o gRPC também permite streams unilaterais.
 
 ## O que é gRPC
 gRPC é um framework open-source para comunicação entre serviços, utilizando Protocol Buffers (ProtoBuf) para serialização de dados e baseado em HTTP/2.
