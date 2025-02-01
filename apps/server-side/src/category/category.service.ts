@@ -11,15 +11,15 @@ export default class CategoryService {
     private categories: CategoryEntity[] = [
         {
             id: 1,
-            description: 'Category 1',
+            description: 'Category1',
         },
         {
             id: 2,
-            description: 'Category 2',
+            description: 'Category2',
         },
         {
             id: 3,
-            description: 'Category 3',
+            description: 'Category3',
         },
     ];
 
